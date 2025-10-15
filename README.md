@@ -9,7 +9,7 @@ Nguồn chủ yếu từ CoinMarketCap và Binance (Spot & Futures), ngoài ra c
 
 ### Nguồn dữ liệu
 - Nguồn: https://pro.coinmarketcap.com/account/
-- API key: f5c41183-d038-4b30-8bc8-bed7dd84a131
+- API key: 
 - Giới hạn: 10,000 request/tháng (gói Free)
 - Loại: Realtime / Update per second
 
