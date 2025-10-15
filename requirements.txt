@@ -1,54 +1,8 @@
-# ==== Core utilities ====
 python-dotenv==1.0.1
-loguru==0.7.2
-pyyaml==6.0.2
-tqdm==4.66.4
-
-# ==== Networking / crawling ====
 requests==2.32.3
 aiohttp==3.10.10
 websocket-client==1.8.0
-
-# ==== Data handling ====
 pandas==2.2.3
 numpy==2.1.3
-pyarrow==18.1.0
-fastparquet==2024.11.0
-openpyxl==3.1.5
-
-# ==== Big Data: Spark / HDFS ====
 pyspark==3.5.7
-findspark==2.0.1
 hdfs==2.7.3
-psutil==6.1.0
-
-# ==== Workflow orchestration: Airflow 3.x ====
-apache-airflow==3.2.0
-apache-airflow-providers-apache-spark==6.0.0
-apache-airflow-providers-apache-hdfs==5.0.0
-apache-airflow-providers-apache-kafka==2.0.0
-apache-airflow-providers-http==5.0.0
-apache-airflow-providers-common-sql==2.0.0
-
-# ==== Messaging / streaming ====
-confluent-kafka==2.4.0
-streamz==0.6.4
-
-# ==== Serialization / schema ====
-protobuf==5.28.2
-avro==1.12.0
-pyserde==0.21.0
-
-# ==== Compression / codecs ====
-lz4==4.3.3
-zstandard==0.23.0
-cramjam==2.6.6
-
-# ==== Dev / test / lint ====
-pytest==8.3.3
-black==24.8.0
-flake8==7.1.1
-pre-commit==4.0.1
-
-# ==== Monitoring / metrics ====
-prometheus-client==0.20.0
