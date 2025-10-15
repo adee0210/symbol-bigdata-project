@@ -1,39 +1,76 @@
 import requests
-import json
+import time
+import pandas as pd
+from datetime import datetime, timedelta
+
+# API endpoint
+BASE_URL = "https://fapi.binance.com"
+FUNDING_RATE_URL = f"{BASE_URL}/fapi/v1/fundingRate"
 
 
-# Lấy funding rate hiện tại cho tất cả coin
-def get_current_funding_rates():
-    url = "https://fapi.binance.com/fapi/v1/premiumIndex"
-    response = requests.get(url)
-    if response.status_code == 200:
-        data = response.json()
-        # Lọc chỉ perpetual futures (nếu cần)
-        perpetuals = [
-            item for item in data if "USDT" in item["symbol"] or "USD" in item["symbol"]
-        ]  # Ví dụ lọc USDT/USD pairs
-        return perpetuals
-    else:
-        print(f"Error: {response.status_code}")
-        return None
+# Lấy lịch sử funding rate cho BTCUSDT
+def get_historical_funding_rate(symbol, start_time, end_time, limit=1000):
+    params = {
+        "symbol": symbol,
+        "limit": limit,
+        "startTime": start_time,
+        "endTime": end_time,
+    }
+    try:
+        response = requests.get(FUNDING_RATE_URL, params=params)
+        if response.status_code == 200:
+            return response.json()
+        else:
+            print(f"Error fetching {symbol}: {response.status_code}")
+            return []
+    except Exception as e:
+        print(f"Exception for {symbol}: {e}")
+        return []
 
 
-# Lấy lịch sử funding rate cho một symbol
-def get_historical_funding_rate(symbol, limit=1000):
-    url = f"https://fapi.binance.com/fapi/v1/fundingRate?symbol={symbol}&limit={limit}"
-    response = requests.get(url)
-    if response.status_code == 200:
-        return response.json()
-    else:
-        print(f"Error: {response.status_code}")
-        return None
+# Chuyển đổi Unix timestamp thành datetime
+def unix_to_datetime(unix_ms):
+    return datetime.fromtimestamp(unix_ms / 1000.0)
 
 
-# Ví dụ sử dụng
-current_rates = get_current_funding_rates()
-if current_rates:
-    print(json.dumps(current_rates[:5], indent=4))  # In 5 cái đầu tiên
+# Lấy toàn bộ lịch sử funding rate cho BTCUSDT
+def fetch_btc_funding_rates():
+    symbol = "BTCUSDT"
+    all_data = []
 
-historical = get_historical_funding_rate("BTCUSDT")
-if historical:
-    print(json.dumps(historical[:5], indent=4))  # In 5 records đầu
+    # Bắt đầu từ 2019-08-01 (khoảng thời gian BTCUSDT perpetual futures ra mắt)
+    start_time = int(datetime(2019, 8, 1).timestamp() * 1000)
+    end_time = int(datetime.now().timestamp() * 1000)  # Hiện tại
+
+    print(f"Fetching funding rate history for {symbol}...")
+    current_start = start_time
+
+    while current_start < end_time:
+        data = get_historical_funding_rate(symbol, current_start, end_time)
+        if not data:
+            break
+        all_data.extend(data)
+
+        # Cập nhật start_time cho lần gọi tiếp theo
+        if len(data) < 1000:
+            break  # Đã lấy hết dữ liệu
+        last_time = max([item["fundingTime"] for item in data])
+        current_start = last_time + 1  # Tiếp tục từ thời điểm cuối
+
+        print(f"Fetched {len(data)} records up to {unix_to_datetime(last_time)}")
+        time.sleep(0.5)  # Tránh rate limit
+
+    # Lưu vào CSV
+    if all_data:
+        df = pd.DataFrame(all_data)
+        df["fundingTime"] = df["fundingTime"].apply(unix_to_datetime)
+        df.to_csv("binance_btc_funding_rates.csv", index=False)
+        print("Data saved to binance_btc_funding_rates.csv")
+
+    return all_data
+
+
+# Chạy script
+if __name__ == "__main__":
+    funding_rates = fetch_btc_funding_rates()
+    print(f"Total records fetched: {len(funding_rates)}")
