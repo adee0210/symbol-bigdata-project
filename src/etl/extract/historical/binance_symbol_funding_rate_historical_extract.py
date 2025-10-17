@@ -1,4 +1,4 @@
-from datetime import timedelta, datetime, timezone
+from datetime import timedelta, datetime
 import json
 from pathlib import Path
 import os
@@ -76,7 +76,7 @@ class BinanceFundingRateHistoricalExtract:
     ):
         step = timedelta(days=step_days)
 
-        end_datetime = datetime.now(timezone.utc)
+        end_datetime = datetime.now()
         start_datetime = end_datetime - step
         check_any_data = False
         earliest_found = None
@@ -128,64 +128,105 @@ class BinanceFundingRateHistoricalExtract:
             self.logger.warning("No data found for this symbol")
             return None
 
-    def extract(self, symbol=None):
-        if symbol is None:
-            symbol = self.top100_symbol_name_upper_with_usdt[0]
+    def extract(self):
+        """Trích xuất dữ liệu funding rate cho toàn bộ 100 symbol và trả về DataFrame tổng hợp"""
+        symbols = self.top100_symbol_name_upper_with_usdt
 
-        self.logger.info(f"Starting extraction for symbol: {symbol}")
-        earliest_ts = self.find_earliest_funding_time(symbol)
+        self.logger.info(f"Starting extraction for {len(symbols)} symbols")
 
-        if earliest_ts is None:
-            self.logger.error(
-                "Cannot determine earliest timestamp. Stopping extraction."
-            )
-            return None
+        all_dataframes = []
+        successful_extractions = 0
+        failed_extractions = 0
 
-        all_data = []
-        current_start = earliest_ts
-        end_time_ms = int(datetime.now(timezone.utc).timestamp() * 1000)
+        for i, symbol in enumerate(symbols, 1):
+            self.logger.info(f"Processing symbol {i}/{len(symbols)}: {symbol}")
+
+            try:
+                # Tìm thời điểm funding rate sớm nhất cho symbol này
+                earliest_ts = self.find_earliest_funding_time(symbol)
+
+                if earliest_ts is None:
+                    self.logger.error(
+                        f"Cannot determine earliest timestamp for {symbol}. Skipping."
+                    )
+                    failed_extractions += 1
+                    continue
+
+                # Lấy dữ liệu funding rate từ earliest đến hiện tại
+                all_data = []
+                current_start = earliest_ts
+                end_time_ms = int(datetime.now().timestamp() * 1000)
+
+                self.logger.info(
+                    f"Extracting data for {symbol} from {ConvertDatetimeUtil.unix_to_datetime(current_start)} to present"
+                )
+
+                while current_start < end_time_ms:
+                    data = self.get_funding_rate_from_api_as_json(
+                        symbol=symbol,
+                        start_unixtime_ms=current_start,
+                        end_unixtime_ms=end_time_ms,
+                        limit=1000,
+                    )
+                    if not data:
+                        break
+                    all_data.extend(data)
+
+                    last_time = max(item["fundingTime"] for item in data)
+                    self.logger.info(
+                        f"Retrieved {len(data)} records for {symbol} up to {ConvertDatetimeUtil.unix_to_datetime(last_time)}"
+                    )
+
+                    current_start = last_time + 1
+                    time.sleep(0.3)
+
+                    if len(data) < 1000:
+                        break
+
+                if not all_data:
+                    self.logger.warning(f"No data extracted for {symbol}")
+                    failed_extractions += 1
+                    continue
+
+                # Xử lý DataFrame cho symbol này
+                df = pd.DataFrame(all_data)
+                df.drop_duplicates(subset=["fundingTime"], inplace=True)
+                df["fundingTime"] = df["fundingTime"].apply(
+                    ConvertDatetimeUtil.unix_to_datetime
+                )
+                df = df.sort_values("fundingTime").reset_index(drop=True)
+                df["symbol"] = symbol
+
+                all_dataframes.append(df)
+                successful_extractions += 1
+                self.logger.info(
+                    f"Successfully extracted {len(df)} records for {symbol}"
+                )
+
+                # Delay giữa các symbol để tránh rate limiting
+                if i < len(symbols):
+                    time.sleep(1)
+
+            except Exception as e:
+                failed_extractions += 1
+                self.logger.error(f"Error extracting data for {symbol}: {str(e)}")
+                continue
 
         self.logger.info(
-            f"Extracting data from {ConvertDatetimeUtil.unix_to_datetime(current_start)} to present"
+            f"Extraction completed: {successful_extractions} successful, {failed_extractions} failed"
         )
 
-        while current_start < end_time_ms:
-            data = self.get_funding_rate_from_api_as_json(
-                symbol=symbol,
-                start_unixtime_ms=current_start,
-                end_unixtime_ms=end_time_ms,
-                limit=1000,
-            )
-            if not data:
-                break
-            all_data.extend(data)
+        if successful_extractions > 0:
+            # Gộp tất cả DataFrame thành một
+            combined_df = pd.concat(all_dataframes, ignore_index=True)
+            combined_df = combined_df.sort_values(
+                ["symbol", "fundingTime"]
+            ).reset_index(drop=True)
 
-            last_time = max(item["fundingTime"] for item in data)
             self.logger.info(
-                f"Retrieved {len(data)} records up to {ConvertDatetimeUtil.unix_to_datetime(last_time)}"
+                f"Successfully extracted and combined funding rate data: {len(combined_df)} total records from {successful_extractions} symbols"
             )
-
-            current_start = last_time + 1
-            time.sleep(0.3)
-
-            if len(data) < 1000:
-                break
-
-        if not all_data:
-            self.logger.warning("No data to save")
+            return combined_df
+        else:
+            self.logger.error("No data was successfully extracted for any symbol")
             return None
-
-        df = pd.DataFrame(all_data)
-        df.drop_duplicates(subset=["fundingTime"], inplace=True)
-        df["fundingTime"] = df["fundingTime"].apply(
-            ConvertDatetimeUtil.unix_to_datetime
-        )
-        df = df.sort_values("fundingTime").reset_index(drop=True)
-
-        filename = f"funding_rate_{symbol.lower()}.csv"
-        df.to_csv(filename, index=False)
-        self.logger.info(f"Saved {len(df)} rows to {filename}")
-        self.logger.info(
-            f"Data range: {df['fundingTime'].iloc[0]} to {df['fundingTime'].iloc[-1]}"
-        )
-        return df
