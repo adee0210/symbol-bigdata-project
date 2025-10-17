@@ -1,6 +1,8 @@
 import sys
 import os
 
+from utils.convert_datetime_util import ConvertDatetimeUtil
+
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", ".."))
 )
@@ -68,7 +70,9 @@ class CMCRealtimeExtract:
                         "market_cap_dominance": data["quote"]["USD"][
                             "market_cap_dominance"
                         ],
-                        "datetime": data["quote"]["USD"]["last_updated"],
+                        "datetime": ConvertDatetimeUtil.isoformat_datetime_to_datetime(
+                            data["quote"]["USD"]["last_updated"]
+                        ),
                     }
                     for data in list_data
                 ]
@@ -87,7 +91,7 @@ class CMCRealtimeExtract:
                     f"{base_dir}/data/raw/", self.cmc_top100_symbol_name
                 )
                 with open(top100_symbol_full_path, "w") as f:
-                    json.dump(top_100_symbol_name_list, f, indent=4)
+                    f.write(str(top_100_symbol_name_list))
                 self.logger.info(
                     f"Write top 100 symbol name to {top100_symbol_full_path}"
                 )
@@ -106,7 +110,3 @@ class CMCRealtimeExtract:
         except Exception as e:
             self.logger.error(f"Unexpected error in cmc_extract: {str(e)}")
             return None
-
-
-test = CMCRealtimeExtract()
-test.extract()
