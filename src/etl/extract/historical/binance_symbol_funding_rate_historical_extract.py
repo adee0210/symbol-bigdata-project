@@ -129,7 +129,6 @@ class BinanceFundingRateHistoricalExtract:
             return None
 
     def extract(self):
-        """Trích xuất dữ liệu funding rate cho toàn bộ 100 symbol và trả về DataFrame tổng hợp"""
         symbols = self.top100_symbol_name_upper_with_usdt
 
         self.logger.info(f"Starting extraction for {len(symbols)} symbols")
@@ -142,7 +141,6 @@ class BinanceFundingRateHistoricalExtract:
             self.logger.info(f"Processing symbol {i}/{len(symbols)}: {symbol}")
 
             try:
-                # Tìm thời điểm funding rate sớm nhất cho symbol này
                 earliest_ts = self.find_earliest_funding_time(symbol)
 
                 if earliest_ts is None:
@@ -152,7 +150,6 @@ class BinanceFundingRateHistoricalExtract:
                     failed_extractions += 1
                     continue
 
-                # Lấy dữ liệu funding rate từ earliest đến hiện tại
                 all_data = []
                 current_start = earliest_ts
                 end_time_ms = int(datetime.now().timestamp() * 1000)
@@ -188,7 +185,6 @@ class BinanceFundingRateHistoricalExtract:
                     failed_extractions += 1
                     continue
 
-                # Xử lý DataFrame cho symbol này
                 df = pd.DataFrame(all_data)
                 df.drop_duplicates(subset=["fundingTime"], inplace=True)
                 df["fundingTime"] = df["fundingTime"].apply(
@@ -203,7 +199,6 @@ class BinanceFundingRateHistoricalExtract:
                     f"Successfully extracted {len(df)} records for {symbol}"
                 )
 
-                # Delay giữa các symbol để tránh rate limiting
                 if i < len(symbols):
                     time.sleep(1)
 
@@ -217,7 +212,6 @@ class BinanceFundingRateHistoricalExtract:
         )
 
         if successful_extractions > 0:
-            # Gộp tất cả DataFrame thành một
             combined_df = pd.concat(all_dataframes, ignore_index=True)
             combined_df = combined_df.sort_values(
                 ["symbol", "fundingTime"]
