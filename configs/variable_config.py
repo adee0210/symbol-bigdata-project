@@ -18,11 +18,11 @@ CMC_CONFIG = {
     "cmc_interval_send_request": 260,
     "cmc_url": f"https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=100&convert=USD",
     "cmc_top100_symbol_name": "top100_symbol.txt",
-    "cmc_table": "cmc",
+    "cmc_table_in_pg": "cmc",
 }
 
 
 BINANCE_FUNDING_RATE_CONFIG = {
     "binance_funding_rate_url": "https://fapi.binance.com/fapi/v1/fundingRate",
-    "binance_funding_rate_table": "binance_funding_rate",
+    "binance_funding_rate_table_in_pg": "binance_funding_rate",
 }
