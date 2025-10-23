@@ -26,3 +26,8 @@ BINANCE_FUNDING_RATE_CONFIG = {
     "binance_funding_rate_url": "https://fapi.binance.com/fapi/v1/fundingRate",
     "binance_funding_rate_table_in_pg": "binance_funding_rate",
 }
+
+TELEGRAM_CONFIG = {
+    "bot_token": os.getenv("TELEGRAM_BOT_TOKEN"),
+    "chat_id": os.getenv("TELEGRAM_CHAT_ID"),
+}
