@@ -11,17 +11,10 @@ class DatabaseManager:
         self.conn = None
 
     async def connect(self, database: str | None = None):
-        """Create or reuse a persistent asyncpg connection stored in self.conn.
-
-        If already connected and the requested database matches current connection,
-        reuse it. Otherwise close existing connection and open a new one.
-        """
         try:
             target_db = database or self.pg_config._config.get("database")
 
-            # If connection exists and seems usable, reuse it
             if self.conn is not None and not self.conn.is_closed():
-                # No easy way to check which DB the connection uses; assume reuse is fine
                 self.logger.info("Reusing existing PostgreSQL connection")
                 return self.conn
 
@@ -90,7 +83,6 @@ class DatabaseManager:
         table_name = CMC_CONFIG.get("cmc_table_in_pg")
         create_table_sql = f"""
         CREATE TABLE IF NOT EXISTS {table_name} (
-            id SERIAL PRIMARY KEY,
             name TEXT,
             symbol TEXT,
             rank INTEGER,
