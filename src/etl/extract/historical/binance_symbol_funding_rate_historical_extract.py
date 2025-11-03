@@ -8,6 +8,7 @@ import pandas as pd
 import requests
 from configs.logger_config import LoggerConfig
 from configs.variable_config import BINANCE_FUNDING_RATE_CONFIG
+from utils.convert_content_file_to_variable_util import ConvertContentFileToVariableUtil
 from utils.convert_datetime_util import ConvertDatetimeUtil
 
 
@@ -22,22 +23,10 @@ class BinanceFundingRateHistoricalExtract:
                 "binance_funding_rate_url"
             ]
 
-            base_dir = Path(
-                os.path.dirname(
-                    os.path.dirname(
-                        os.path.dirname(
-                            os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-                        )
-                    )
-                )
-            )
-
-            for file in base_dir.rglob("top100_symbol.txt"):
-                content = file.read_text(encoding="utf-8")
-                top100_symbol_name = json.loads(content)
-                self.top100_symbol_name_upper_with_usdt = [
-                    f"{symbol_name.upper()}usdt" for symbol_name in top100_symbol_name
-                ]
+            self.top100_symbol_name_upper_with_usdt = [
+                f"{symbol_name.upper()}usdt"
+                for symbol_name in ConvertContentFileToVariableUtil.symbol_top100_to_list()
+            ]
 
         except Exception as e:
             self.logger.error(

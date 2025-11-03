@@ -24,7 +24,7 @@ CMC_CONFIG = {
     "cmc_historical_batch_extract": 5000,
     "cmc_historical_time_end": datetime.datetime.now().timestamp(),
     "cmc_historical_day": 4,
-    "cmc_historical_symbol_id":
+    "cmc_historical_symbol_id": "1027",
 }
 
 
