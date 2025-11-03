@@ -79,7 +79,6 @@ class DatabaseManager:
                 pass
 
     async def create_cmc_table(self):
-        """Create CMC table in configured database if it doesn't exist."""
         table_name = CMC_CONFIG.get("cmc_table_in_pg")
         create_table_sql = f"""
         CREATE TABLE IF NOT EXISTS {table_name} (

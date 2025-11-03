@@ -3,7 +3,7 @@ from configs.postgresql_config import AsyncPGConfig
 from configs.variable_config import CMC_CONFIG
 
 
-class StoreRawDataCMC:
+class CMCStoreRawData:
     def __init__(self) -> None:
         self.logger = LoggerConfig.logger_config(
             "Store raw extract historical data from CMC extract data"
@@ -18,6 +18,6 @@ class StoreRawDataCMC:
                 r = conn.execute(
                     f"""
                     UPDATE {self.cmc_table_in_pg}
-                    SET name = $1
+                    SET name = $1, symbol = $2,rank = $3
                     """
                 )

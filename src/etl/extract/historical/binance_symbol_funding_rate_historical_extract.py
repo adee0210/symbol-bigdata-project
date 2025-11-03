@@ -121,7 +121,7 @@ class BinanceFundingRateHistoricalExtract:
             time.sleep(0.2)
 
         if earliest_found:
-            earliest_datetime = ConvertDatetimeUtil.unix_to_datetime(earliest_found)
+            earliest_datetime = ConvertDatetimeUtil.unix_ms_to_datetime(earliest_found)
             self.logger.info(f"Earliest funding time found: {earliest_datetime}")
             return earliest_found
         else:
@@ -155,7 +155,7 @@ class BinanceFundingRateHistoricalExtract:
                 end_time_ms = int(datetime.now().timestamp() * 1000)
 
                 self.logger.info(
-                    f"Extracting data for {symbol} from {ConvertDatetimeUtil.unix_to_datetime(current_start)} to present"
+                    f"Extracting data for {symbol} from {ConvertDatetimeUtil.unix_ms_to_datetime(current_start)} to present"
                 )
 
                 while current_start < end_time_ms:
@@ -171,7 +171,7 @@ class BinanceFundingRateHistoricalExtract:
 
                     last_time = max(item["fundingTime"] for item in data)
                     self.logger.info(
-                        f"Retrieved {len(data)} records for {symbol} up to {ConvertDatetimeUtil.unix_to_datetime(last_time)}"
+                        f"Retrieved {len(data)} records for {symbol} up to {ConvertDatetimeUtil.unix_ms_to_datetime(last_time)}"
                     )
 
                     current_start = last_time + 1
@@ -188,7 +188,7 @@ class BinanceFundingRateHistoricalExtract:
                 df = pd.DataFrame(all_data)
                 df.drop_duplicates(subset=["fundingTime"], inplace=True)
                 df["fundingTime"] = df["fundingTime"].apply(
-                    ConvertDatetimeUtil.unix_to_datetime
+                    ConvertDatetimeUtil.unix_ms_to_datetime
                 )
                 df = df.sort_values("fundingTime").reset_index(drop=True)
                 df["symbol"] = symbol

@@ -1,3 +1,4 @@
+import datetime
 import os
 from dotenv import load_dotenv
 
@@ -14,11 +15,16 @@ POSTGRES_CONFIG = {
 }
 
 CMC_CONFIG = {
-    "cmc_key": os.getenv("CMC_KEY"),
-    "cmc_interval_send_request": 260,
-    "cmc_url": f"https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=100&convert=USD",
+    "cmc_realtime_key": os.getenv("CMC_KEY"),
+    "cmc_realtime_interval_send_request": 260,
+    "cmc_realtime_url": f"https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=100&convert=USD",
     "cmc_top100_symbol_name": "top100_symbol.txt",
-    "cmc_table_in_pg": "cmc",
+    "cmc_realtime_table_in_pg": "cmc",
+    "cmc_historical_url": "https://api.coinmarketcap.com/data-api/v3.1/cryptocurrency/historical?id=symbol_id&convertId=2781&timeStart=symbol_time_start&timeEnd=symbol_time_end&interval=15m",
+    "cmc_historical_batch_extract": 5000,
+    "cmc_historical_time_end": datetime.datetime.now().timestamp(),
+    "cmc_historical_day": 4,
+    "cmc_historical_symbol_id":
 }
 
 
