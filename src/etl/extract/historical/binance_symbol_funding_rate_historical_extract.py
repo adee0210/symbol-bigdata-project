@@ -22,7 +22,7 @@ class BinanceFundingRateHistoricalExtract:
 
             self.top100_symbol_name_upper_with_usdt = [
                 f"{symbol_name.upper()}usdt"
-                for symbol_name in ConvertContentFileToVariableUtil.symbol_top100_to_list()
+                for symbol_name in ConvertContentFileToVariableUtil.get_top100_symbol_id()
             ]
 
         except Exception as e:

@@ -21,3 +21,19 @@ class ConvertContentFileToVariableUtil:
             content = file.read_text(encoding="utf-8")
             top100_symbol = json.loads(content)
         return top100_symbol
+
+    @staticmethod
+    def get_top100_symbol():
+        top100_symbol = [
+            data["symbol"]
+            for data in ConvertContentFileToVariableUtil.symbol_top100_to_list()
+        ]
+        return top100_symbol
+
+    @staticmethod
+    def get_top100_id():
+        top100_symbol_id = [
+            data["id"]
+            for data in ConvertContentFileToVariableUtil.symbol_top100_to_list()
+        ]
+        return top100_symbol_id
