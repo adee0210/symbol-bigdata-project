@@ -17,7 +17,7 @@ class ConvertContentFileToVariableUtil:
             )
         )
 
-        for file in base_dir.rglob("top100_symbol.txt"):
+        for file in base_dir.rglob("top100_symbol_with_id.json"):
             content = file.read_text(encoding="utf-8")
-            top100_symbol_name = json.loads(content)
-        return top100_symbol_name
+            top100_symbol = json.loads(content)
+        return top100_symbol

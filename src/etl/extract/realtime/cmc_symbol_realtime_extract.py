@@ -6,7 +6,6 @@ from utils.convert_datetime_util import ConvertDatetimeUtil
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", ".."))
 )
-import json
 import requests
 from configs.logger_config import LoggerConfig
 from configs.variable_config import CMC_CONFIG
@@ -18,14 +17,15 @@ class CMCRealtimeExtract:
             self.logger = LoggerConfig.logger_config(
                 "Extract CMC realtime data from CMC API"
             )
-            self.cmc_key = CMC_CONFIG["cmc_key"]
-            self.cmc_url = CMC_CONFIG["cmc_url"]
-            self.cmc_interval_send_request = CMC_CONFIG["cmc_interval_send_request"]
+            self.cmc_key = CMC_CONFIG["cmc_realtime_key"]
+            self.cmc_url = CMC_CONFIG["cmc_realtime_url"]
+            self.cmc_interval_send_request = CMC_CONFIG[
+                "cmc_realtime_interval_send_request"
+            ]
             self.headers = self.header = {
                 "Accept": "application/json",
                 "X-CMC_PRO_API_KEY": self.cmc_key,
             }
-            self.cmc_top100_symbol_name = CMC_CONFIG["cmc_top100_symbol_name"]
             self.logger.info("Loaded CMC realtime data configuration successfully")
         except Exception as e:
             self.logger.error(
@@ -77,24 +77,6 @@ class CMCRealtimeExtract:
                     for data in list_data
                 ]
                 self.logger.info("Successfully to extract CMC realtime data.")
-                top_100_symbol_name_list = [
-                    data["symbol"] for data in realtime_data_extract
-                ]
-                base_dir = os.path.dirname(
-                    os.path.dirname(
-                        os.path.dirname(
-                            os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-                        )
-                    )
-                )
-                top100_symbol_full_path = os.path.join(
-                    f"{base_dir}/data/raw/", self.cmc_top100_symbol_name
-                )
-                with open(top100_symbol_full_path, "w") as f:
-                    f.write(str(top_100_symbol_name_list))
-                self.logger.info(
-                    f"Write top 100 symbol name to {top100_symbol_full_path}"
-                )
 
                 return realtime_data_extract
             else:
