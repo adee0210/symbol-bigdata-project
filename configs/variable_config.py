@@ -1,8 +1,14 @@
 import datetime
 import os
 from dotenv import load_dotenv
+import sys
 
-from utils.convert_content_file_to_variable_util import ConvertContentFileToVariableUtil
+sys.path.append(
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", ".."))
+)
+from src.utils.convert_content_file_to_variable_util import (
+    ConvertContentFileToVariableUtil,
+)
 
 
 load_dotenv()

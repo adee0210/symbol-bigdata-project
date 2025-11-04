@@ -1,11 +1,12 @@
 import sys
 import os
 
-from utils.convert_datetime_util import ConvertDatetimeUtil
 
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", ".."))
 )
+
+from utils.convert_datetime_util import ConvertDatetimeUtil
 import requests
 from configs.logger_config import LoggerConfig
 from configs.variable_config import CMC_CONFIG
@@ -70,7 +71,7 @@ class CMCRealtimeExtract:
                         "market_cap_dominance": data["quote"]["USD"][
                             "market_cap_dominance"
                         ],
-                        "datetime": ConvertDatetimeUtil.isoformat_datetime_to_datetime(
+                        "datetime": ConvertDatetimeUtil.iso_datetime_to_datetime(
                             data["quote"]["USD"]["last_updated"]
                         ),
                     }

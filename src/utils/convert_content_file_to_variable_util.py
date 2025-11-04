@@ -31,7 +31,7 @@ class ConvertContentFileToVariableUtil:
         return top100_symbol
 
     @staticmethod
-    def get_top100_id():
+    def get_top100_symbol_id():
         top100_symbol_id = [
             data["id"]
             for data in ConvertContentFileToVariableUtil.symbol_top100_to_list()
