@@ -72,11 +72,13 @@ class CMCHistoricalExtract:
                     data_from_request = self.get_data_from_requests(
                         time_start=time_start, time_end=time_end, id=id
                     )
-                    time_start = [
-                        ConvertDatetimeUtil.iso_to_unix_ms(data["quote"]["timestamp"])
-                        for data in data_from_request
-                    ]
-                    time_end = time_start
+                    if len(data_from_request["data"]["quotes"]) == 0:
+                        self.logger.warning("khong co data trong khoang thoi gian nay")
+                        break
+
+                    time_end = ConvertDatetimeUtil.iso_to_unix_ms(
+                        data_from_request[0]["quote"]["timestamp"]
+                    )
 
                 except Exception as e:
                     self.logger.error(
