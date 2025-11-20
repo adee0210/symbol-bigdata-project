@@ -84,6 +84,3 @@ class CMCHistoricalExtract:
                     self.logger.error(
                         f"Error to extract CMC historical data Error: {(str(e))}"
                     )
-
-
-test = CMCHistoricalExtract()
