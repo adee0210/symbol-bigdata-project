@@ -377,3 +377,118 @@
     | price | float |
     | change | float |
     | M/B | str |
+
+
+### 3) Orderbook Data
+
+-   Dữ liệu giao dịch sẽ được lấy theo realtime cho các mã cổ phiếu, chỉ số, ETF và phái sinh đã liệt kê ở trên.
+
+
+-   **Các trường sẽ được lấy bao gồm:**
+    
+
+## B. DỮ LIỆU CRYPTO
+
+### 1) Trade
+*Dữ liệu các giao dịch khớp lệnh trên sàn, ghi lại từng lần mua/bán thực tế.*
+| Trường | Kiểu dữ liệu |
+|--------|--------------|
+| symbol | varchar |
+| price | float |
+| trade_time | datetime |
+| quantity | float |
+| maker | bool |
+
+### 2) Depth
+*Dữ liệu sổ lệnh (Orderbook), thể hiện các mức giá và khối lượng đặt mua/bán tại từng thời điểm.*
+| Trường | Kiểu dữ liệu |
+|--------|--------------|
+| symbol | varchar |
+| side | varchar |
+| price | decimal |
+| quantity | decimal |
+| amount_total | decimal |
+| updated_at | timestamp |
+
+### 3) CoinMarketCapData
+*Dữ liệu tổng hợp từ CoinMarketCap, gồm giá, vốn hóa, khối lượng, thứ hạng và các chỉ số biến động của đồng coin.*
+| Trường | Kiểu dữ liệu |
+|--------|--------------|
+| symbol | varchar |
+| name | varchar |
+| datetime | datetime |
+| price | float |
+| cmc_rank | int |
+| change_1h_percent | float |
+| change_24h_percent | float |
+| change_7d_percent | float |
+| volume | float |
+| market_cap | float |
+| volume_24h | float |
+| circulating_supply | float |
+
+### 4) Dominance
+*Dữ liệu thể hiện tỷ trọng (dominance) của một đồng coin so với toàn thị trường, gồm giá mở, cao, thấp, đóng và khối lượng.*
+| Trường | Kiểu dữ liệu |
+|--------|--------------|
+| symbol | varchar |
+| open | float |
+| high | float |
+| low | float |
+| close | float |
+| volume | float |
+| type | varchar |
+| datetime | datetime |
+
+### 5) funding_rate
+*Dữ liệu funding rate (lãi suất qua đêm) của các hợp đồng phái sinh, gồm giá, thời gian, loại hợp đồng và các chỉ số liên quan.*
+| Trường | Kiểu dữ liệu |
+|--------|--------------|
+| symbol | varchar |
+| funding_rate | decimal |
+| funding_time | timestamp |
+| mark_price | decimal |
+| index_price | decimal |
+| type | varchar |
+| next_funding_time | timestamp |
+
+### 6) Kline
+*Dữ liệu nến (Kline/Candlestick), gồm giá mở, cao, thấp, đóng, khối lượng và thời gian cho từng khung thời gian.*
+| Trường | Kiểu dữ liệu |
+|--------|--------------|
+| symbol | varchar |
+| interval | varchar |
+| open_time | timestamp |
+| open | decimal |
+| high | decimal |
+| low | decimal |
+| close | decimal |
+| volume | decimal |
+| close_time | timestamp |
+
+### 7) Liquidation
+*Dữ liệu các lệnh thanh lý (liquidation) trên thị trường phái sinh, gồm giá, khối lượng, chiều lệnh và thời gian.*
+| Trường | Kiểu dữ liệu |
+|--------|--------------|
+| symbol | varchar |
+| price | decimal |
+| quantity | decimal |
+| side | varchar |
+| time | timestamp |
+
+### 8) exchange_info
+*Thông tin về sàn giao dịch, múi giờ và thời điểm cập nhật.*
+| Trường | Kiểu dữ liệu |
+|--------|--------------|
+| exchange_name | varchar |
+| timezone | varchar |
+| datetime | timestamp |
+
+### 9) open_interest
+*Dữ liệu open interest (khối lượng hợp đồng mở) của các hợp đồng phái sinh tại từng thời điểm.*
+| Trường | Kiểu dữ liệu |
+|--------|--------------|
+| symbol | varchar |
+| open_interest | decimal |
+| timestamp | timestamp |
+
