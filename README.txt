@@ -491,4 +491,3 @@
 | symbol | varchar |
 | open_interest | decimal |
 | timestamp | timestamp |
-
