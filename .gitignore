@@ -1,0 +1,5 @@
+.env
+# Loại trừ tất cả các file log
+*.log
+logs/*.log
+logs/*.log.*
