@@ -27,7 +27,7 @@
 
 ### 1) Candlestick Data
 
--   Các data source sẽ được lấy theo timeframe là theo 1 phút (1m) sẽ được crawl theo lịch sử và realtime bao gồm:
+-   Các data source sẽ được lấy theo timeframe là theo 1 phút (1m) sẽ được crawl theo lịch sử và realtime 5 giây (5s) bao gồm:
     
     -   **Mã cổ phiếu (Stocks) hay Cổ phiếu gồm:**
 
