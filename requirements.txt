@@ -1,6 +1,6 @@
 cloudscraper
 requests
 websockets
-psycopg2-binary
 python-dotenv
 selenium
+psycopg[binary,pool]
