@@ -2,17 +2,17 @@ from psycopg_pool import ConnectionPool
 
 
 class PostgreSQLConfig:
-    _instance = None
+    _instances = {}
 
-    def __new__(cls, postgresql_db_urls, min_connect=5, max_connect=20):
-        if cls._instance is None:
-            if postgresql_db_urls is None:
-                raise ValueError("PostgreSQL DB is None")
-            cls._instance = super().__new__(cls)
-            cls._instance_pool = {
-                name: ConnectionPool(url, min_size=min_connect, max_size=max_connect)
-                for name, url in postgresql_db_urls.items()
-            }
-            return cls._instance
-
-
+    def __new__(cls, base_url, db_name, min_connect=5, max_connect=20):
+        if db_name in cls._instances:
+            return cls._instances[db_name]
+        if base_url is None or db_name is None:
+            raise ValueError("Base URL or DB name is None")
+        instance = super().__new__(cls)
+        full_url = base_url + "/" + db_name
+        instance._pool = ConnectionPool(
+            full_url, min_size=min_connect, max_size=max_connect
+        )
+        cls._instances[db_name] = instance
+        return instance
