@@ -1,6 +1,9 @@
 import sys
 from pathlib import Path
-import psycopg
+
+from vn.candlestick_data_pipeline.extract.historical_extract.etf_1minute_historical_extract import (
+    ETF1MinuteHistoricalExtract,
+)
 
 
 def find_project_root(current_file, marker="requirements.txt"):
@@ -14,21 +17,5 @@ def find_project_root(current_file, marker="requirements.txt"):
 project_root = find_project_root(__file__, marker="requirements.txt")
 sys.path.insert(0, str(project_root))
 
-from configs.config import PG_URL_CONFIG
-from configs.postgresql_config import PostgreSQLConfig
-
-
-test = PostgreSQLConfig(PG_URL_CONFIG["pg_url"], "symbol_db")
-
-db_name = "dl_ckvn"
-base_url = PG_URL_CONFIG["pg_url"]
-db_name = "dl_ckvn"
-
-with psycopg.connect(base_url + "/postgres", autocommit=True) as conn:
-    with conn.cursor() as cur:
-        cur.execute("SELECT 1 FROM pg_database WHERE datname = %s", (db_name,))
-        if not cur.fetchone():
-            cur.execute(f'CREATE DATABASE "{db_name}"')
-            print(f"Database {db_name} created!")
-        else:
-            print(f"Database {db_name} already exists.")
+test = ETF1MinuteHistoricalExtract()
+print(test.etf_data_source_url)
