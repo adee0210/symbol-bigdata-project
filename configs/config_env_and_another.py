@@ -13,3 +13,6 @@ VN_CANDLESTICK_DATA_CONFIG = {
 #     "telegram_bot_token": os.getenv("TELEGRAM_BOT_TOKEN"),
 #     "telegram_chat_id": os.getenv("TELEGRAM_CHAT_ID"),
 # }
+
+
+SELENIUM_CONFIG = {"driver_path": ""}

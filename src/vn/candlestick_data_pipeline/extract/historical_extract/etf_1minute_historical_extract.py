@@ -1,4 +1,4 @@
-from configs.config_env import VN_CANDLESTICK_DATA_CONFIG
+from configs.config_env_and_another import VN_CANDLESTICK_DATA_CONFIG
 from utils.load_file_to_variable_util import LoadFileToVariableUtil
 from utils.selenium_util import SeleniumUtil
 
