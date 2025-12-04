@@ -40,4 +40,5 @@ class SeleniumUtil:
         tag_name_data = json.loads(
             self.chrome_driver.find_element(by=By.TAG_NAME, value=tag_name).text
         )
+        self.chrome_driver.quit()
         return tag_name_data
