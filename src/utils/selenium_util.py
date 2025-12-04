@@ -1,5 +1,4 @@
 import json
-from time import sleep
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium import webdriver

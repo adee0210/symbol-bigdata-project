@@ -1,5 +1,4 @@
 {
-    "pg_url_template": "postgresql://{PG_USER}:{PG_PASSWORD}@{PG_HOST}:{PG_PORT}",
     "vn_candlestick_data": {
         "morning_session": {
             "start": "9:00",
@@ -9,7 +8,6 @@
             "start": "13:00",
             "end": "14:46"
         },
-        "data_source_url": "https://tvc4.investing.com/4379fbb3b2cf9327a768dbfde5d69d1d/1761556750/52/52/110/history?symbol=symbol&resolution=timeframe&from=from_time_unix&to=to_time_unix",
         "minute_timeframe": 1,
         "realtime_update_interval_seconds": 5,
         "symbols": {
