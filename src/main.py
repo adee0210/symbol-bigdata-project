@@ -7,10 +7,6 @@ from vn.candlestick_data_pipeline.extract.historical_extract.etf_1minute_histori
     ETF1MinuteHistoricalExtract,
 )
 
-sys.path.insert(0, str(project_root))
-
-from configs.config import PG_URL_CONFIG, VN_CANDLESTICK_DATA_CONFIG
-
 
 def find_project_root(current_file, marker="requirements.txt"):
     current_path = Path(current_file).resolve()
