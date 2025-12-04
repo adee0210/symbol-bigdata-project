@@ -9,7 +9,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 
 class SeleniumUtil:
-    def __init__(self, url):
+    def __init__(self):
 
         common_option = [
             "--no-sandbox",
@@ -29,10 +29,9 @@ class SeleniumUtil:
         self.chrome_driver = webdriver.Chrome(
             options=chrome_option, service=chrome_service
         )
-        self.url = url
 
-    def get_data_by_tag_name(self, tag_name):
-        self.chrome_driver.get(url=self.url)
+    def get_data_by_tag_name(self, url, tag_name):
+        self.chrome_driver.get(url=url)
 
         WebDriverWait(self.chrome_driver, 10).until(
             EC.presence_of_element_located((By.TAG_NAME, tag_name))
