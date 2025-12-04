@@ -4,3 +4,4 @@ websockets
 python-dotenv
 selenium
 psycopg[binary,pool]
+webdriver-manager

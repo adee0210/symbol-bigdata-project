@@ -2,9 +2,6 @@ import sys
 from pathlib import Path
 
 from utils.selenium_util import SeleniumUtil
-from vn.candlestick_data_pipeline.extract.historical_extract.etf_1minute_historical_extract import (
-    ETF1MinuteHistoricalExtract,
-)
 
 
 def find_project_root(current_file, marker="requirements.txt"):

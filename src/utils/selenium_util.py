@@ -5,6 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
 
 
 class SeleniumUtil:
@@ -24,7 +25,7 @@ class SeleniumUtil:
         for option in common_option:
             chrome_option.add_argument(option)
 
-        chrome_service = Service("/usr/bin/chromedriver")
+        chrome_service = Service(ChromeDriverManager().install())
         self.chrome_driver = webdriver.Chrome(
             options=chrome_option, service=chrome_service
         )
