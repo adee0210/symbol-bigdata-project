@@ -10,7 +10,6 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 class SeleniumUtil:
     def __init__(self):
-
         common_option = [
             "--no-sandbox",
             "--disable-dev-shm-usage",
@@ -31,6 +30,10 @@ class SeleniumUtil:
         )
 
     def get_data_by_tag_name(self, url, tag_name):
+        # Mở tab mới cho mỗi URL
+        self.chrome_driver.execute_script("window.open('');")
+        self.chrome_driver.switch_to.window(self.chrome_driver.window_handles[-1])
+
         self.chrome_driver.get(url=url)
 
         WebDriverWait(self.chrome_driver, 10).until(
@@ -39,5 +42,12 @@ class SeleniumUtil:
         tag_name_data = json.loads(
             self.chrome_driver.find_element(by=By.TAG_NAME, value=tag_name).text
         )
-        self.chrome_driver.quit()
+
+        # Đóng tab hiện tại và chuyển về tab chính
+        self.chrome_driver.close()
+        self.chrome_driver.switch_to.window(self.chrome_driver.window_handles[0])
+
         return tag_name_data
+
+    def quit_selenium_util(self):
+        self.chrome_driver.quit()

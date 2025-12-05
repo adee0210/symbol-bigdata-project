@@ -1,4 +1,4 @@
-from datetime import time, timedelta
+import time
 import json
 from configs.config_env import VN_CANDLESTICK_DATA_CONFIG
 from utils.convert_to_format_datetime_util import ConvertToFormatDatetimeUtil
@@ -24,9 +24,9 @@ class ETF1MinuteHistoricalExtract:
 
         time_start = time_end - stack
         etf_url = (
-            self.etf_data_source_url.replace("symbol", self.etf_symbol_list)
-            .replace("time_start", time_start)
-            .replace("time_end", time_end)
+            self.etf_data_source_url.replace("_symbol", self.etf_symbol_list)
+            .replace("time_start", f"{time_start}")
+            .replace("time_end", f"{time_end}")
         )
 
         while True:
@@ -34,13 +34,15 @@ class ETF1MinuteHistoricalExtract:
                 self.selenium_util.get_data_by_tag_name(etf_url, "body")["s"]
                 == "no_data"
             ):
+
                 break
             time_end = time_start
             time_start = time_end - stack
+
             etf_url = (
-                self.etf_data_source_url.replace("symbol", self.etf_symbol_list)
-                .replace("time_start", time_start)
-                .replace("time_end", time_end)
+                self.etf_data_source_url.replace("_symbol", self.etf_symbol_list)
+                .replace("time_start", f"{time_start}")
+                .replace("time_end", f"{time_end}")
             )
             data = self.selenium_util.get_data_by_tag_name(etf_url, "body")
             with open(
@@ -48,3 +50,4 @@ class ETF1MinuteHistoricalExtract:
                 "w",
             ) as f:
                 json.dump(data, f)
+        self.selenium_util.quit_selenium_util()
