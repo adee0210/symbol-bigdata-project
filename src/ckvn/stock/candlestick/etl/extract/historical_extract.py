@@ -1,9 +1,10 @@
-from pathlib import Path
-from common.configs.logging_config import LoggingConfig
+from ckvn.stock.candlestick.configs.config import SYMBOL
+from ckvn.stock.candlestick.etl.extract.historical_interface import HistoricalInterface
 
 
-test = LoggingConfig.logging_config(
-    "Test", Path("/home/duc/symbol-bigdata-project/logs")
-)
-
-test.info("xin chao")
+class HistoricalExtract(HistoricalInterface):
+    def __init__(self) -> None:
+        self.investing_api = SYMBOL["investing_api"]
+        self.symbol = [SYMBOL[s].keys() for s in SYMBOL.keys()]
+        
+        
