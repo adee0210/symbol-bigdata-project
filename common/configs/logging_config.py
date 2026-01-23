@@ -1,31 +1,37 @@
-from pathlib import Path
 import logging
+from pathlib import Path
 from logging.handlers import RotatingFileHandler
 
 
 class LoggingConfig:
     @staticmethod
-    def logging_config(log_name, log_dir: Path, log_level=logging.INFO):
+    def logging_config(log_name, log_dir: Path, log_level: int = logging.INFO):
         log_dir.mkdir(parents=True, exist_ok=True)
         log_file = log_dir / "main.log"
 
         logger = logging.getLogger(name=log_name)
-        logger.setLevel(log_level)
         logger.propagate = False
+        logger.setLevel(log_level)
 
         if logger.handlers:
             return logger
-        # forrmatter
-        formatter = logging.Formatter("%(asctime)s - %(processName)s - %(levelname)s - %(name)s - %(message)s")
+
+        # formatter
+        formatter = logging.Formatter(
+            "%(asctime)s - %(processName)s - %(levelname)s - %(name)s - %(message)s"
+        )
 
         # handlers
-        file_handler = RotatingFileHandler(filename=log_file,maxBytes=5*1024*1024,backupCount=5,encoding="utf-8")
-        file_handler.setFormatter(formatter)
+        file_handlers = RotatingFileHandler(
+            filename=log_file, maxBytes=5 * 1024 * 1024, backupCount=5, encoding="utf-8"
+        )
 
-        console_handler = logging.StreamHandler()
-        console_handler.setFormatter(formatter)
+        console_handlers = logging.StreamHandler()
 
-        logger.addHandler(file_handler)
-        logger.addHandler(console_handler)
+        file_handlers.setFormatter(formatter)
+        console_handlers.setFormatter(formatter)
+
+        logger.addHandler(console_handlers)
+        logger.addHandler(file_handlers)
 
         return logger
