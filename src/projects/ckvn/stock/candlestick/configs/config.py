@@ -93,6 +93,6 @@ ACTIVE_TIMES = {
 }
 
 SYMBOL_API = {
-    "investing_api": str(os.getenv("INVESTING_API")),
-    "vps_api": str(os.getenv("VPS_API")),
+    "investing_api": os.getenv("INVESTING_API"),
+    "vps_api": os.getenv("VPS_API"),
 }

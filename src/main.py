@@ -1,8 +1,8 @@
-from pathlib import Path
+import json
 
-from common.configs.logging_config import LoggingConfig
+from common.utils.convert_datetime_util import ConvertDatetimeUtil
 
+with open("test.json", "r") as f:
+    data = json.load(f)
 
-path = Path("/home/duc/symbol-bigdata-project/logs")
-test = LoggingConfig.logging_config(log_name="test", log_dir=path)
-test.info("xin chao bo may test cai code nay")
+print(ConvertDatetimeUtil.unix_second_to_datetime_utc(data["t"][0]))
