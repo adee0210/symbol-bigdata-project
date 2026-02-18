@@ -4,9 +4,16 @@ import json
 import cloudscraper
 
 from ckvn.stock.candlestick.configs.config import SYMBOL_API
+from pathlib import Path
+
+from common.configs.logging_config import LoggingConfig
 
 
 def logic():
+    test_path = Path(r"/home/duc/symbol-bigdata-project/logs")
+    logger = LoggingConfig.logging_config(
+        log_name="TestStockCandlestickHistoricalExtract", log_dir=test_path
+    )
     day = 180
     end_time = int(datetime.now(tz=timezone.utc).timestamp())
     stack = day * 24 * 60 * 60
@@ -29,11 +36,11 @@ def logic():
                 json.dump(data, f)
             end_time = start_time - 60
             start_time = end_time - stack
-            print(f"crawl data {i}")
+            logger.info(f"Done {i}")
             i += 1
             time.sleep(10)
         else:
-            print("Done")
+            logger.info("Done all extract")
             break
 
 

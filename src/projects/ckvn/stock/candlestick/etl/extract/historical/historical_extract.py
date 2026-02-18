@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 from logging import Logger
 import cloudscraper
 from ckvn.stock.candlestick.configs.config import SYMBOL
-from ckvn.stock.candlestick.etl.extract.historical_extract_interface import (
+from ckvn.stock.candlestick.etl.extract.historical.historical_extract_interface import (
     HistoricalExtractInterface,
 )
 

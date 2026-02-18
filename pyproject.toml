@@ -7,7 +7,7 @@ name = "ckvn"
 version = "0.1.0"
 
 [tool.setuptools]
-package-dir = {"" = "src/projects"}
+package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
-where = ["src/projects"]
+where = ["src"]

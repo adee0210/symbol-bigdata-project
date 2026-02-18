@@ -1,0 +1,6 @@
+ckvn
+common
+crypto
+docker
+other_data
+projects
