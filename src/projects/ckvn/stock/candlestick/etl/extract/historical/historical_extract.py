@@ -6,6 +6,10 @@ from ckvn.stock.candlestick.etl.extract.historical.historical_extract_interface 
     HistoricalExtractInterface,
 )
 
+from selenium import webdriver
+from selenium.webdriver.chromium.service import ChromiumService
+from selenium.webdriver.chrome.options import Options
+
 from common.configs.logging_config import LoggingConfig
 
 
@@ -16,16 +20,24 @@ class HistoricalExtract(HistoricalExtractInterface):
         self.symbol = [SYMBOL[s].keys() for s in SYMBOL.keys()]
 
     def logic(self):
-        try:
-            start_time = int(datetime.now(tz=timezone.utc).timestamp())
-            scraper = cloudscraper.create_scraper()
-            response = scraper.get(url=self.investing_api)
-            data = response.json()
-            return data
+        def create_chromium_driver():
 
-        except Exception as e:
-            self.logger.info(f"Error: {str(e)}")
-            raise
+        driver_path = r"/snap/bin/chromium.chromedriver"
+        chromium_option = Options()
+        chromium_option.add_argument("--no-sandbox")
+        chromium_option.add_argument("--disable-dev-shm-usage")
+        chromium_option.add_argument("--disable-gpu")
+        chromium_option.add_argument("--disable-blink-features=AutomationControlled")
+        chromium_option.add_argument("--no-first-run")
+        chromium_option.add_argument("--disable-default-apps")
+        chromium_option.add_argument("--disable-extensions")
+        # chromium_option.add_argument("--headless=new")  # Disabled to show browser UI
+        return webdriver.Chrome(
+            service=ChromiumService(driver_path), options=chromium_option
+        )
+
+            
+
 
     def historical_extract_logic(self):
         return None

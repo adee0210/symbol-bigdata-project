@@ -3,6 +3,9 @@ import time
 import json
 import cloudscraper
 
+from selenium import webdriver
+from selenium.webdriver.chromium.service import ChromiumService
+from selenium.webdriver.chrome.options import Options
 from ckvn.stock.candlestick.configs.config import SYMBOL_API
 from pathlib import Path
 
@@ -44,4 +47,27 @@ def logic():
             break
 
 
-logic()
+# logic()
+def chromium_driver():
+    driver_path = r"/snap/bin/chromium.chromedriver"
+    chromium_option = Options()
+    chromium_option.add_argument("--no-sandbox")
+    chromium_option.add_argument("--disable-dev-shm-usage")
+    chromium_option.add_argument("--disable-gpu")
+    chromium_option.add_argument("--disable-blink-features=AutomationControlled")
+    chromium_option.add_argument("--no-first-run")
+    chromium_option.add_argument("--disable-default-apps")
+    chromium_option.add_argument("--disable-extensions")
+    # chromium_option.add_argument("--headless=new")  # Disabled to show browser UI
+    return webdriver.Chrome(
+        service=ChromiumService(driver_path), options=chromium_option
+    )
+
+
+test = chromium_driver()
+test.get(
+    url="https://tvc4.investing.com/4379fbb3b2cf9327a768dbfde5d69d1d/1761556750/52/52/110/history?symbol=ethereum&resolution=1&from=1609459200&to=1672531199"
+)
+time.sleep(10)
+data = test.find_element("tag name", "body").text
+print(data)
