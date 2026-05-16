@@ -1,8 +1,23 @@
-cloudscraper
-requests
-websockets
-python-dotenv
-selenium
-psycopg[binary,pool]
-webdriver-manager
+# WEB API
+fastapi
+
+# BIG DATA / STREAMING
+pyspark
+confluent-kafka
 pyarrow
+elasticsearch[async]
+
+# WORKFLOW ORCHESTRATION
+apache-airflow
+
+# DATABASE
+psycopg
+clickhouse-connect
+redis
+
+# CONFIG / ENVIRONMENT
+python-dotenv
+
+# BROWSER AUTOMATION
+webdriver-manager
+selenium
