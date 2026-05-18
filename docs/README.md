@@ -393,17 +393,8 @@
 
 - Dữ liệu được lấy theo ngày nhưng update 5 phút 1 lần để lấy tỉ giá bán
 
-    | Trường   | Kiểu dữ liệu | Giải thích |
-    |----------|--------------|-----------|
-    | symbol   | str          | Mã chứng khoán hoặc mã giao dịch |
-    | bid_price| float        | Giá đặt mua |
-    | bid_volume| float       | Khối lượng đặt mua |
-    | ask_price| float        | Giá đặt bán |
-    | ask_volume| float       | Khối lượng đặt bán |
-    | datetime | datetime, cần format về YYYY-MM-DD HH:MM:SS | Thời điểm ghi nhận dữ liệu |
     | Trường        | Kiểu dữ liệu | Giải thích |
     |---------------|--------------|-----------|
-    | datetime      | datetime, cần format về YYYY-MM-DD HH:MM:SS | Thời điểm ghi nhận dữ liệu |
     | selling_rate  | float        | Tỉ giá bán USD/VND |
     | cash          | float        | Tỉ giá tiền mặt |
     | transfer      | float        | Tỉ giá chuyển khoản |
