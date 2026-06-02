@@ -1,22 +1,22 @@
 # WEB API
-fastapi
+# fastapi
 
-# BIG DATA / STREAMING
-pyspark
-confluent-kafka
-pyarrow
-elasticsearch[async]
+# # BIG DATA / STREAMING
+# pyspark
+# confluent-kafka
+# pyarrow
+# elasticsearch[async]
 
-# WORKFLOW ORCHESTRATION
-apache-airflow
+# # WORKFLOW ORCHESTRATION
+# apache-airflow
 
-# DATABASE
-psycopg
-clickhouse-connect
-redis
+# # DATABASE
+# psycopg
+# clickhouse-connect
+# redis
 
-# CONFIG / ENVIRONMENT
-python-dotenv
+# # CONFIG / ENVIRONMENT
+# python-dotenv
 
 # BROWSER AUTOMATION
 webdriver-manager
