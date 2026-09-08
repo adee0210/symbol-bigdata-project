@@ -15,9 +15,7 @@
 # clickhouse-connect
 # redis
 
-# # CONFIG / ENVIRONMENT
-# python-dotenv
-
 # BROWSER AUTOMATION
 webdriver-manager
 selenium
+curl_cffi
