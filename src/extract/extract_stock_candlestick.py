@@ -2,12 +2,12 @@ import time
 import os
 from dotenv import load_dotenv
 from src.utils.fetch_by_curl_util import FetchByCurlUtil
-from src.utils.convert_datetime_util import ConvertDatimeUtil
+from src.utils.convert_datetime_util import ConvertDatetimeUtil
 
 load_dotenv()
 
 
-class ExtractStockPrices:
+class ExtractStockCandlestick:
     def __init__(self, symbol, resolution: str):
         self.url = os.getenv("URL")
         self.symbol = symbol
@@ -35,8 +35,10 @@ class ExtractStockPrices:
         timezone="Asia/Ho_Chi_Minh",
     ):
 
-        from_timestamp = ConvertDatimeUtil.convert_datetime_to_timestamp(from_datetime)
-        to_timestamp = ConvertDatimeUtil.convert_datetime_to_timestamp(to_datetime)
+        from_timestamp = ConvertDatetimeUtil.convert_datetime_to_timestamp(
+            from_datetime
+        )
+        to_timestamp = ConvertDatetimeUtil.convert_datetime_to_timestamp(to_datetime)
         if from_timestamp <= to_timestamp:
             params = {
                 "symbol": self.symbol,
@@ -57,10 +59,10 @@ class ExtractStockPrices:
         look_back_period: str = "10M",
         interval_seconds: str = "60S",  # for example, look_back_period = "10M" means 10 minutes, interval_seconds = "60S" means 60 seconds
     ):
-        look_back_seconds = ConvertDatimeUtil.convert_period_to_seconds(
+        look_back_seconds = ConvertDatetimeUtil.convert_period_to_seconds(
             look_back_period
         )
-        interval = ConvertDatimeUtil.convert_period_to_seconds(interval_seconds)
+        interval = ConvertDatetimeUtil.convert_period_to_seconds(interval_seconds)
 
         while True:
             now = int(time.time())

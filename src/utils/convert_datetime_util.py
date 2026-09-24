@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-class ConvertDatimeUtil:
+class ConvertDatetimeUtil:
     @staticmethod
     def convert_datetime_to_timestamp(datetime_str):
         # Convert a datetime string in the format "YYYY-MM-DD HH:MM:SS" to a Unix timestamp
