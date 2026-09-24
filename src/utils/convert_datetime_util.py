@@ -18,7 +18,7 @@ class ConvertDatimeUtil:
         return dt.strftime("%Y-%m-%d %H:%M:%S")
 
     @staticmethod
-    def period_to_seconds(period: str):
+    def convert_period_to_seconds(period: str):
         # Convert a positive duration such as 10M or 2H to seconds.
         if not isinstance(period, str) or len(period) < 2:
             raise ValueError("Period must be a positive integer followed by a unit.")
