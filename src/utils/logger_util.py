@@ -1,11 +1,18 @@
 import logging
+import logging.handlers
+import os
 
 
 class LoggerUtil:
     @staticmethod
     def get_logger(name: str, level=logging.INFO):
-        format = "%(asctime)s -%(name)s- %(levelname)s - %(message)s"
+        format = "%(asctime)s - %(name)s - %(filename)s - %(levelname)s - %(message)s"
         formatter = logging.Formatter(format)
+
+        log_dir = "logs"
+        if not os.path.exists(log_dir):
+            os.makedirs(log_dir, exist_ok=True)
+
         RotatingFileHandler = logging.handlers.RotatingFileHandler(
             filename="logs/application.log",
             maxBytes=1024 * 1024 * 10,

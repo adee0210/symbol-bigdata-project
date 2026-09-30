@@ -1,6 +1,6 @@
 from src.extract.extract_stock_candlestick import ExtractStockCandlestick
 
-test = ExtractStockCandlestick("VCB", "1","curll")
+test = ExtractStockCandlestick("VCB", "1","curl")
 
 data = test.extract_realtime_data_periodically(
     look_back_period="10M", interval_seconds="60S"

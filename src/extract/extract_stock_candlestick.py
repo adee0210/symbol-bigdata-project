@@ -1,14 +1,16 @@
-import time
 import os
+import time
+
 from dotenv import load_dotenv
-from src.utils.fetch_by_curl_util import FetchByCurlUtil
+
 from src.utils.convert_datetime_util import ConvertDatetimeUtil
+from src.utils.fetch_by_curl_util import FetchByCurlUtil
 
 load_dotenv()
 
 
 class ExtractStockCandlestick:
-    def __init__(self, symbol, resolution: str,extract_method:str):
+    def __init__(self, symbol, resolution: str, extract_method: str):
         self.url = os.getenv("URL")
         self.symbol = symbol
         if resolution.strip().upper() not in ["1", "5", "1H", "1D", "1W", "1M"]:
@@ -41,11 +43,12 @@ class ExtractStockCandlestick:
         timezone="Asia/Ho_Chi_Minh",
     ):
         if self.extract_method == "curl":
-
             from_timestamp = ConvertDatetimeUtil.convert_datetime_to_timestamp(
                 from_datetime
             )
-            to_timestamp = ConvertDatetimeUtil.convert_datetime_to_timestamp(to_datetime)
+            to_timestamp = ConvertDatetimeUtil.convert_datetime_to_timestamp(
+                to_datetime
+            )
             if from_timestamp <= to_timestamp:
                 params = {
                     "symbol": self.symbol,
@@ -61,7 +64,9 @@ class ExtractStockCandlestick:
                     return None
                 return history_from_to_data
             else:
-                raise ValueError("from_datetime must be less than or equal to to_datetime")
+                raise ValueError(
+                    "from_datetime must be less than or equal to to_datetime"
+                )
         else:
             raise ValueError("Invalid extract_method")
 

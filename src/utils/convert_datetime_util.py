@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class ConvertDatetimeUtil:
@@ -6,7 +6,9 @@ class ConvertDatetimeUtil:
     def convert_datetime_to_timestamp(datetime_str):
         # Convert a datetime string in the format "YYYY-MM-DD HH:MM:SS" to a Unix timestamp
 
-        dt = datetime.strptime(datetime_str, "%Y-%m-%d %H:%M:%S")
+        dt = datetime.strptime(datetime_str, "%Y-%m-%d %H:%M:%S").replace(
+            tzinfo=timezone.utc
+        )
         timestamp = int(dt.timestamp())
         return timestamp
 
@@ -14,7 +16,7 @@ class ConvertDatetimeUtil:
     def convert_timestamp_to_datetime(timestamp):
         # Convert a Unix timestamp to a datetime in the format "YYYY-MM-DD HH:MM:SS"
 
-        dt = datetime.fromtimestamp(timestamp)
+        dt = datetime.fromtimestamp(timestamp, tz=timezone.utc)
         return dt.strftime("%Y-%m-%d %H:%M:%S")
 
     @staticmethod
