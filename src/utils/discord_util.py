@@ -68,17 +68,3 @@ class DiscordUtil:
             f"**Source:** `{source}`\n\n**Message:**\n```ansi\n\x1b[1;32m{message}\x1b[0m\n```",
             65280,
         )
-
-
-if __name__ == "__main__":
-    discord = DiscordUtil()
-    discord.notify_info("main.py", "Program has started successfully...")
-    discord.notify_error(
-        "src/extract/extract_stock_candlestick.py",
-        "Exception: Failed to connect to Database",
-    )
-    discord.notify_warning("main.py", "Program is stopping...")
-    discord.notify_success(
-        "src/extract/extract_stock_candlestick.py",
-        "Candlestick data extraction completed!",
-    )

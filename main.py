@@ -1,10 +1,8 @@
 from src.extract.extract_stock_candlestick import ExtractStockCandlestick
+from src.load.raw.load_raw_stock_candlestick import LoadRawStockPrice
 
-test = ExtractStockCandlestick("VCB", "1","curl")
-
-data = test.extract_realtime_data_periodically(
-    look_back_period="10M", interval_seconds="60S"
-)
-
-for item in data:
-    print(item)
+test = LoadRawStockPrice("VNM", "1")
+data = ExtractStockCandlestick("VNM", "1", "curl").extract_all_history_data()
+print(data)
+test.load_raw_data(data)
+test.close()

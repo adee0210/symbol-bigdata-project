@@ -11,11 +11,12 @@
 # apache-airflow
 
 # # DATABASE
-# psycopg
 # clickhouse-connect
 # redis
+oracledb
 
 # BROWSER AUTOMATION
 webdriver-manager
 selenium
 curl_cffi
+cloudscraper

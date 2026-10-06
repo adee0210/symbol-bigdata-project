@@ -12,4 +12,6 @@ class FetchByCurlUtil:
         if response.status_code == 200:
             return response.json()
         else:
-            raise FetchByCurlError(f"Request failed with status code {response.status_code}")
+            raise FetchByCurlError(
+                f"Request failed with status code {response.status_code}"
+            )

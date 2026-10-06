@@ -32,7 +32,3 @@ class LoggerUtil:
     def remove_all_handlers(logger: logging.Logger):
         for handler in logger.handlers:
             logger.removeHandler(handler)
-
-
-test = LoggerUtil.get_logger("test", level=logging.INFO)
-test.info("test")
