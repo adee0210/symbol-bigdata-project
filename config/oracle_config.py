@@ -61,15 +61,3 @@ class OracleConfig:
             self._pool.close()
             self._pool = None
             print("Oracle connection pool closed.")
-
-
-# Usage example:
-if __name__ == "__main__":
-    db_config = OracleConfig()
-    try:
-        conn = db_config.get_connection()
-        print("Successfully connected to Oracle DB!")
-        print("Oracle DB version:", conn.version)
-        db_config.release_connection(conn)
-    except Exception as e:
-        print(f"Failed to connect: {e}")

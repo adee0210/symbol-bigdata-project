@@ -11,14 +11,10 @@ load_dotenv()
 
 class ExtractStockCandlestick:
     def __init__(self, symbol, resolution: str, extract_method: str):
-        self.url = os.getenv("URL")
         self.symbol = symbol
-        if resolution.strip().upper() not in ["1", "5", "1H", "1D", "1W", "1M"]:
-            raise ValueError(
-                "Invalid resolution. Must be one of '1', '5', '1H', '1D', '1W', or '1M'."
-            )
-        self.resolution = resolution
+        self.resolution = ConvertDatetimeUtil.convert_resolution(resolution)
         self.extract_method = extract_method
+        self.url = os.getenv("VPS_URL")
 
     def extract_all_history_data(self):
         if self.extract_method == "curl":

@@ -20,6 +20,22 @@ class ConvertDatetimeUtil:
         return dt.strftime("%Y-%m-%d %H:%M:%S")
 
     @staticmethod
+    def convert_resolution(resolution: str):
+        if resolution not in ["1M", "5M", "15M", "30M", "1H", "1D", "1W", "1MO"]:
+            raise ValueError("Invalid resolution")
+        resolution_mapping = {
+            "1M": "1",
+            "5M": "5",
+            "15M": "15",
+            "30M": "30",
+            "1H": "60",
+            "1D": "1D",
+            "1W": "1W",
+            "1MO": "1MO",
+        }
+        return resolution_mapping[resolution]
+
+    @staticmethod
     def convert_period_to_seconds(period: str):
         # Convert a positive duration such as 10M or 2H to seconds.
         if not isinstance(period, str) or len(period) < 2:
