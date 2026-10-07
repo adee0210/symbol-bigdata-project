@@ -1,17 +1,18 @@
 from curl_cffi import requests
 
-
-class FetchByCurlError(Exception):
-    pass
+from common.exception.extraction_exception import ExtractionException
 
 
 class FetchByCurlUtil:
-    @staticmethod
-    def fetch_by_curl(url, params=None, headers=None):
+    def __init__(self):
+        self.fetch_by_curl_error = ExtractionException("Fetch by curl error")
+
+    def fetch_by_curl(self, url, params=None, headers=None):
+        """Fetch data from the given URL using curl with optional parameters and headers."""
         response = requests.get(url, params=params, headers=headers)
         if response.status_code == 200:
             return response.json()
         else:
-            raise FetchByCurlError(
-                f"Request failed with status code {response.status_code}"
+            raise self.fetch_by_curl_error.extraction_error(
+                f"Request failed with status code: {response.status_code}"
             )
