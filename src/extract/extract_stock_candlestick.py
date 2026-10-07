@@ -3,8 +3,9 @@ import time
 
 from dotenv import load_dotenv
 
-from src.utils.convert_datetime_util import ConvertDatetimeUtil
-from src.utils.fetch_by_curl_util import FetchByCurlUtil
+from common.exception.extraction_exception import ExtractionException
+from common.utils.convert_datetime_util import ConvertDatetimeUtil
+from common.utils.fetch_by_curl_util import FetchByCurlUtil
 
 load_dotenv()
 
@@ -15,6 +16,7 @@ class ExtractStockCandlestick:
         self.resolution = ConvertDatetimeUtil.convert_resolution(resolution)
         self.extract_method = extract_method
         self.url = os.getenv("VPS_URL")
+        self.extraction_exception = ExtractionException("Extraction error")
 
     def extract_all_history_data(self):
         if self.extract_method == "curl":
@@ -30,7 +32,9 @@ class ExtractStockCandlestick:
                 return None
             return all_history_data
         else:
-            raise ValueError("Invalid extract_method")
+            raise self.extraction_exception.extraction_method_error(
+                "Invalid extract_method"
+            )
 
     def extract_history_data_from_to(
         self,
@@ -64,7 +68,9 @@ class ExtractStockCandlestick:
                     "from_datetime must be less than or equal to to_datetime"
                 )
         else:
-            raise ValueError("Invalid extract_method")
+            raise self.extraction_exception.extraction_method_error(
+                "Invalid extract_method"
+            )
 
     def extract_realtime_data_periodically(
         self,
@@ -92,4 +98,6 @@ class ExtractStockCandlestick:
                     yield real_time_data
                 time.sleep(interval)
         else:
-            raise ValueError("Invalid extract_method")
+            raise self.extraction_exception.extraction_method_error(
+                "Invalid extract_method"
+            )

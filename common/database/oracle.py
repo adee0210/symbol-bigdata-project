@@ -1,23 +1,27 @@
-from dotenv import load_dotenv
 import os
-import oracledb
 import threading
+
+import oracledb
+from dotenv import load_dotenv
+
+from common.exception.database_exception import DatabaseException
 
 load_dotenv()
 
 
-class OracleConfig:
+class Oracle:
     _instance = None
     _lock = threading.Lock()
 
     def __new__(cls):
         with cls._lock:
             if cls._instance is None:
-                cls._instance = super(OracleConfig, cls).__new__(cls)
+                cls._instance = super().__new__(cls)
                 cls._instance._initialize_pool()
         return cls._instance
 
     def _initialize_pool(self):
+        self.database_exception = DatabaseException("Oracle database error")
         self.username = os.getenv("ORACLE_USERNAME")
         self.password = os.getenv("ORACLE_PASSWORD")
         self.hostname = os.getenv("ORACLE_HOSTNAME")
@@ -47,7 +51,9 @@ class OracleConfig:
     def get_connection(self):
         """Get a connection from the pool."""
         if self._pool is None:
-            raise Exception("Connection pool is not initialized.")
+            raise self.database_exception.database_connection_error(
+                "Connection pool is not initialized."
+            )
         return self._pool.acquire()
 
     def release_connection(self, connection):

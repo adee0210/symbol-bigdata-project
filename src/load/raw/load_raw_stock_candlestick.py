@@ -1,4 +1,4 @@
-from config.oracle_config import OracleConfig
+from common.database.oracle import OracleConfig
 from src.extract.extract_stock_candlestick import ExtractStockCandlestick
 
 

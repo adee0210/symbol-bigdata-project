@@ -10,6 +10,7 @@ class ConvertDatetimeUtil:
             tzinfo=timezone.utc
         )
         timestamp = int(dt.timestamp())
+
         return timestamp
 
     @staticmethod
@@ -17,10 +18,12 @@ class ConvertDatetimeUtil:
         # Convert a Unix timestamp to a datetime in the format "YYYY-MM-DD HH:MM:SS"
 
         dt = datetime.fromtimestamp(timestamp, tz=timezone.utc)
+
         return dt.strftime("%Y-%m-%d %H:%M:%S")
 
     @staticmethod
     def convert_resolution(resolution: str):
+        # convert resolution to the format used by the API, e.g., "1M" to "1", "5M" to "5", etc.
         if resolution not in ["1M", "5M", "15M", "30M", "1H", "1D", "1W", "1MO"]:
             raise ValueError("Invalid resolution")
         resolution_mapping = {
@@ -31,8 +34,9 @@ class ConvertDatetimeUtil:
             "1H": "60",
             "1D": "1D",
             "1W": "1W",
-            "1MO": "1MO",
+            "1MO": "1M",
         }
+
         return resolution_mapping[resolution]
 
     @staticmethod
@@ -60,4 +64,5 @@ class ConvertDatetimeUtil:
             raise ValueError(
                 "Period must be a positive integer followed by S, M, H, D, or W."
             )
+
         return value * units[unit]
