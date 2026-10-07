@@ -1,11 +1,11 @@
 from datetime import datetime, timezone
 
-from common.exception.exception_validation import ValidationException
+from common.exception.exception_validation import ExceptionValidation
 
 
 class ConvertDatetimeUtil:
     def __init__(self) -> None:
-        self.validation_exception = ValidationException("Validation error")
+        self.validation_exception = ExceptionValidation("Validation error")
 
     def convert_datetime_to_timestamp(self, datetime_str):
         # Convert a datetime string in the format "YYYY-MM-DD HH:MM:SS" to a Unix timestamp
@@ -44,7 +44,9 @@ class ConvertDatetimeUtil:
     def convert_period_to_seconds(self, period: str):
         # Convert a positive duration such as 10M or 2H to seconds.
         if not isinstance(period, str) or len(period) < 2:
-            raise self.validation_exception.validation_error("Period must be a positive integer followed by a unit.")
+            raise self.validation_exception.validation_error(
+                "Period must be a positive integer followed by a unit."
+            )
 
         try:
             value = int(period[:-1])

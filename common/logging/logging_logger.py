@@ -3,12 +3,12 @@ import logging.handlers
 import os
 
 
-class Logger:
+class LoggingLogger:
     @staticmethod
     def get_logger(name: str, filename: str, level=logging.INFO):
         format = "%(asctime)s - %(name)s - %(filename)s - %(levelname)s - %(message)s"
         formatter = logging.Formatter(format)
-
+    
         log_dir = "logs"
         if not os.path.exists(log_dir):
             os.makedirs(log_dir, exist_ok=True)

@@ -1,11 +1,11 @@
 from curl_cffi import requests
 
-from common.exception.exception_extraction import ExtractionException
+from common.exception.exception_extraction import ExceptionExtraction
 
 
 class FetchByCurlUtil:
     def __init__(self):
-        self.fetch_by_curl_error = ExtractionException("Fetch by curl error")
+        self.fetch_by_curl_error = ExceptionExtraction("Fetch by curl error")
 
     def fetch_by_curl(self, url, params=None, headers=None):
         """Fetch data from the given URL using curl with optional parameters and headers."""

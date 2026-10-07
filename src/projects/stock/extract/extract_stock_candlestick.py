@@ -3,8 +3,8 @@ import time
 
 from dotenv import load_dotenv
 
-from common.exception.exception_extraction import ExtractionException
-from common.exception.exception_validation import ValidationException
+from common.exception.exception_extraction import ExceptionExtraction
+from common.exception.exception_validation import ExceptionValidation
 from common.utils.util_convert_datetime import ConvertDatetimeUtil
 from common.utils.util_fetch_by_curl_util import FetchByCurlUtil
 
@@ -21,8 +21,8 @@ class ExtractStockCandlestick:
         self.url = os.getenv("VPS_URL")
 
         self.fetch_by_curl_util = FetchByCurlUtil()
-        self.extraction_exception = ExtractionException("Extraction error")
-        self.validation_exception = ValidationException("Validation error")
+        self.extraction_exception = ExceptionExtraction("Extraction error")
+        self.validation_exception = ExceptionValidation("Validation error")
 
     def extract_all_history_data(self):
         if self.extract_method == "curl":

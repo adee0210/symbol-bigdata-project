@@ -1,13 +1,15 @@
-from common.database.database_oracle import Oracle
-from common.exception.exception_validation import ValidationException
+from common.database.database_oracle import DatabaseOracle
+from common.exception.exception_validation import ExceptionValidation
+from common.logging.logging_logger import LoggingLogger
 from projects.stock.models.model_stock_candlestick import ModelStockCandlestick
 
 
 class RepositoryStockCandlestick:
     def __init__(self, connection="Oracle"):
-        self.validation_exception = ValidationException("Validation Error")
+        self.validation_exception = ExceptionValidation("Validation Error")
+        self.logging_logger = LoggingLogger()
         if connection == "Oracle":
-            self.oracle = Oracle()
+            self.oracle = DatabaseOracle()
             self.connection = self.oracle.get_connection()
         else:
             raise self.validation_exception.validation_error(

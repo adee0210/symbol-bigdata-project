@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-class Discord:
+class NotifycationDiscord:
     def __init__(self, discord_webhook_url=None):
 
         self.discord_webhook_url = discord_webhook_url or os.getenv(

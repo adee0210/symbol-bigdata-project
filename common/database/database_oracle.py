@@ -4,12 +4,12 @@ import threading
 import oracledb
 from dotenv import load_dotenv
 
-from common.exception.exception_database import DatabaseException
+from common.exception.exception_database import ExceptionDatabase
 
 load_dotenv()
 
 
-class Oracle:
+class DatabaseOracle:
     _instance = None
     _lock = threading.Lock()
 
@@ -27,7 +27,7 @@ class Oracle:
         self.port = os.getenv("ORACLE_PORT")
         self.database = os.getenv("ORACLE_DATABASE")
 
-        self.database_exception = DatabaseException("Oracle database error")
+        self.database_exception = ExceptionDatabase("Oracle database error")
 
         # Connection string (DSN)
         dsn = f"{self.hostname}:{self.port}/{self.database}"
