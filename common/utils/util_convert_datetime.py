@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 
-from common.exception.validation_exception import ValidationException
+from common.exception.exception_validation import ValidationException
 
 
 class ConvertDatetimeUtil:

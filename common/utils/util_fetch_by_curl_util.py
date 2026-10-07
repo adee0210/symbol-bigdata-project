@@ -1,6 +1,6 @@
 from curl_cffi import requests
 
-from common.exception.extraction_exception import ExtractionException
+from common.exception.exception_extraction import ExtractionException
 
 
 class FetchByCurlUtil:

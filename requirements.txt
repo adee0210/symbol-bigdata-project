@@ -1,6 +1,9 @@
 # WEB API
 # fastapi
 
+# CHECK TYPE
+pydantic
+
 # # BIG DATA / STREAMING
 # pyspark
 # confluent-kafka

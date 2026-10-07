@@ -4,7 +4,7 @@ import threading
 import oracledb
 from dotenv import load_dotenv
 
-from common.exception.database_exception import DatabaseException
+from common.exception.exception_database import DatabaseException
 
 load_dotenv()
 
@@ -21,12 +21,13 @@ class Oracle:
         return cls._instance
 
     def _initialize_pool(self):
-        self.database_exception = DatabaseException("Oracle database error")
         self.username = os.getenv("ORACLE_USERNAME")
         self.password = os.getenv("ORACLE_PASSWORD")
         self.hostname = os.getenv("ORACLE_HOSTNAME")
         self.port = os.getenv("ORACLE_PORT")
         self.database = os.getenv("ORACLE_DATABASE")
+
+        self.database_exception = DatabaseException("Oracle database error")
 
         # Connection string (DSN)
         dsn = f"{self.hostname}:{self.port}/{self.database}"
@@ -45,8 +46,10 @@ class Oracle:
             )
             print("Oracle connection pool created successfully.")
         except oracledb.Error as e:
-            print(f"Error creating connection pool: {e}")
             self._pool = None
+            raise self.database_exception.database_connection_error(
+                f"Failed to create Oracle connection pool: {e}"
+            )
 
     def get_connection(self):
         """Get a connection from the pool."""
