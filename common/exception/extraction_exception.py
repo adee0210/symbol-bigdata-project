@@ -27,3 +27,7 @@ class ExtractionException(Exception):
     def extraction_method_error(self, message):
         """Raise an exception for method errors during extraction."""
         raise ExtractionException(f"Method Error: {message}")
+
+    def extraction_error(self, message):
+        """Raise a general exception for extraction errors."""
+        raise ExtractionException(f"Extraction Error: {message}")
