@@ -1,7 +1,7 @@
 from common.database.database_oracle import DatabaseOracle
 from common.exception.exception_validation import ExceptionValidation
 from common.logging.logging_logger import LoggingLogger
-from projects.stock.models.model_stock_candlestick import ModelStockCandlestick
+from src.projects.stock.models.model_stock_candlestick import ModelStockCandlestick
 
 
 class RepositoryStockCandlestick:

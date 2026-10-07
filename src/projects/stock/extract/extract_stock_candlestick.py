@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from common.exception.exception_extraction import ExceptionExtraction
 from common.exception.exception_validation import ExceptionValidation
 from common.utils.util_convert_datetime import ConvertDatetimeUtil
-from common.utils.util_fetch_by_curl_util import FetchByCurlUtil
+from common.utils.util_fetch_by_curl import FetchByCurlUtil
 
 load_dotenv()
 
